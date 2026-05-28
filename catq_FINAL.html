@@ -374,33 +374,6 @@
         return responses;
     }
 
-    function computeScores(responses) {
-        var subscores = {AS: 0, CO: 0, MA: 0};
-        var subcounts = {AS: 0, CO: 0, MA: 0};
-        var total = 0, totalN = 0;
-
-        ITEMS.forEach(function(item) {
-            var raw = responses['q' + item.num];
-            if (raw === null) return;
-            var scored = item.rev ? (8 - raw) : raw;
-            subscores[item.sub] += scored;
-            subcounts[item.sub]++;
-            total += scored;
-            totalN++;
-        });
-
-        // CO=9 items (9-63), MA=8 items (8-56), AS=8 items (8-56)
-        return {
-            total:         totalN === ITEMS.length ? total : null,
-            totalAnswered: totalN,
-            assimilation:  subcounts.AS === 8 ? subscores.AS : null,
-            compensation:  subcounts.CO === 9 ? subscores.CO : null,
-            masking:       subcounts.MA === 8 ? subscores.MA : null,
-            assimilationAnswered: subcounts.AS,
-            compensationAnswered: subcounts.CO,
-            maskingAnswered:      subcounts.MA
-        };
-    }
 
     function collectData() {
         return {
@@ -492,7 +465,6 @@
 
         errEl.classList.add('hidden');
 
-        var scores = computeScores(data.responses);
         var skipped = ITEMS.length - answered;
 
         var exportData = {
@@ -506,17 +478,6 @@
                 answered:          answered,
                 skipped:           skipped,
                 completionPercent: Math.round((answered / ITEMS.length) * 100)
-            },
-            scoring: {
-                total:        scores.total,
-                assimilation: scores.assimilation,
-                compensation: scores.compensation,
-                masking:      scores.masking,
-                subscaleItemCounts: {
-                    assimilation: scores.assimilationAnswered + '/7',
-                    compensation: scores.compensationAnswered + '/9',
-                    masking:      scores.maskingAnswered      + '/9'
-                }
             },
             responses: data.responses
         };

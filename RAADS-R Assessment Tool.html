@@ -475,23 +475,7 @@
         _hasValidated = true;
         highlightSkipped();
 
-        // Score calculation
-        const scored = data.responses.map(function(raw, i) {
-            if (raw === null) return null;
-            return QUESTIONS[i].rev ? (3 - raw) : raw;
-        });
-
-        const totalScore = scored.reduce(function(sum, s) { return sum + (s !== null ? s : 0); }, 0);
-        const answeredCount = scored.filter(function(s) { return s !== null; }).length;
-
-        const subscoreRaw = { SL: 0, CI: 0, LA: 0, SM: 0 };
-        const subscoreN = { SL: 0, CI: 0, LA: 0, SM: 0 };
-        QUESTIONS.forEach(function(q, i) {
-            if (scored[i] !== null) {
-                subscoreRaw[q.sub] += scored[i];
-                subscoreN[q.sub]++;
-            }
-        });
+        const answeredCount = data.responses.filter(function(x) { return x !== null; }).length;
 
         const exportData = {
             toolVersion: "1.0",
@@ -504,15 +488,6 @@
                 answered: answeredCount,
                 skipped: skipped,
                 completionPercent: 100 - skippedPercent
-            },
-            scoring: {
-                totalScore: totalScore,
-                subscores: {
-                    socialRelatedness: subscoreRaw.SL,
-                    circumscribedInterests: subscoreRaw.CI,
-                    language: subscoreRaw.LA,
-                    sensorimotor: subscoreRaw.SM
-                }
             },
             responses: data.responses
         };
