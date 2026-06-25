@@ -465,6 +465,13 @@
 
         errEl.classList.add('hidden');
 
+        var complete = (answered === ITEMS.length);
+        if (!complete) {
+            if (!confirm('You have answered ' + answered + ' of ' + ITEMS.length + ' questions. The CAT-Q is only scorable when every question is answered, so an incomplete form may not be usable. Submit it anyway?')) {
+                return;
+            }
+        }
+
         var skipped = ITEMS.length - answered;
 
         var exportData = {
@@ -477,7 +484,8 @@
                 totalQuestions:    ITEMS.length,
                 answered:          answered,
                 skipped:           skipped,
-                completionPercent: Math.round((answered / ITEMS.length) * 100)
+                completionPercent: Math.round((answered / ITEMS.length) * 100),
+                complete:          complete
             },
             responses: data.responses
         };
