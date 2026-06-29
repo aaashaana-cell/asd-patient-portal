@@ -562,7 +562,7 @@ function emailToClinician() {
   if(!window.exportData){ alert('Please complete the form first.'); return; }
   downloadFile();
   var d=window.exportData;
-  var subject=encodeURIComponent('DASI-IR2 — '+d.patientName+' — '+d.completionDate+' [Informant: '+d.informantName+']');
+  var subject=encodeURIComponent('[Patient Assessment] DASI-IR2 — '+d.patientName+' — '+d.completionDate+' [Informant: '+d.informantName+']');
   var body=encodeURIComponent(
     'Dear Dr. Shah,\n\nPlease find attached the completed Developmental & Behaviour Questionnaire (Informant Report).\n\n'+
     'Client Name: '+d.patientName+'\nClient Date of Birth: '+d.dob+'\nCompletion Date: '+d.completionDate+'\n'+

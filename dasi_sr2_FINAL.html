@@ -482,7 +482,7 @@ function emailToClinician() {
   if(!window.exportData){ alert('Please complete the form first.'); return; }
   downloadFile();
   var d = window.exportData;
-  var subject = encodeURIComponent('DASI-SR2 — '+d.patientName+' — '+d.completionDate);
+  var subject = encodeURIComponent('[Patient Assessment] DASI-SR2 — '+d.patientName+' — '+d.completionDate);
   var body = encodeURIComponent(
     'Dear Dr. Shah,\n\nPlease find attached my completed Developmental & Behaviour Questionnaire (Self-Report).\n\n'+
     'Patient Name: '+d.patientName+'\nDate of Birth: '+d.dob+'\nCompletion Date: '+d.completionDate+'\n\n'+
